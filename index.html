@@ -26,11 +26,25 @@
       font-size: 1.3rem;
       font-weight: bold;
     }
+    .search-box {
+      padding: 10px 14px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
     .filters {
       display: flex;
       gap: 10px;
-      padding: 12px;
+      padding: 8px 12px 12px;
       justify-content: center;
+      flex-wrap: wrap;
     }
     button {
       background: var(--card);
@@ -106,10 +120,14 @@
 
 <header>🔥 VoucherTipid PH</header>
 
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="🔍 Search vouchers (e.g. free shipping, 30% off)">
+</div>
+
 <div class="filters">
-  <button class="active" onclick="filterVouchers('all')">All</button>
-  <button onclick="filterVouchers('Shopee')">Shopee</button>
-  <button onclick="filterVouchers('Lazada')">Lazada</button>
+  <button class="active" onclick="filterVouchers('all', this)">All</button>
+  <button onclick="filterVouchers('Shopee', this)">Shopee</button>
+  <button onclick="filterVouchers('Lazada', this)">Lazada</button>
 </div>
 
 <div class="container" id="voucherList"></div>
@@ -125,25 +143,26 @@ const API_KEY = "YOUR_GOOGLE_API_KEY";
 const RANGE = "Sheet1!A2:G";
 
 let vouchers = [];
+let currentFilter = "all";
 
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`)
   .then(res => res.json())
   .then(data => {
     vouchers = data.values.map(v => ({
-      title: v[0],
-      description: v[1],
-      store: v[2],
-      expiry: v[3],
-      link: v[4],
-      badge: v[5],
-      category: v[6]
+      title: v[0] || "",
+      description: v[1] || "",
+      store: v[2] || "",
+      expiry: v[3] || "",
+      link: v[4] || "#",
+      badge: v[5] || "",
+      category: v[6] || ""
     }));
     renderVouchers(vouchers);
   });
 
 function renderVouchers(list) {
   const container = document.getElementById("voucherList");
-  container.innerHTML = "";
+  container.innerHTML = list.length ? "" : "<p style='color:#bbb'>No vouchers found.</p>";
   list.forEach(v => {
     container.innerHTML += `
       <div class="card">
@@ -158,14 +177,32 @@ function renderVouchers(list) {
   });
 }
 
-function filterVouchers(type) {
-  document.querySelectorAll("button").forEach(b => b.classList.remove("active"));
-  event.target.classList.add("active");
-  if (type === "all") {
-    renderVouchers(vouchers);
-  } else {
-    renderVouchers(vouchers.filter(v => v.store === type));
+function filterVouchers(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  applySearch();
+}
+
+document.getElementById("searchInput").addEventListener("input", applySearch);
+
+function applySearch() {
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  let filtered = vouchers;
+
+  if (currentFilter !== "all") {
+    filtered = filtered.filter(v => v.store === currentFilter);
   }
+
+  if (q) {
+    filtered = filtered.filter(v =>
+      v.title.toLowerCase().includes(q) ||
+      v.description.toLowerCase().includes(q) ||
+      v.store.toLowerCase().includes(q)
+    );
+  }
+
+  renderVouchers(filtered);
 }
 </script>
 
