@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gadget Essentials PH | Premium UI</title>
+<title>Gadget Essentials PH | Premium PWA Store</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <style>
@@ -12,22 +12,18 @@
   --card-bg:rgba(255,255,255,0.2);
   --text-color:white;
 }
-
 body.dark{
   --bg-gradient:linear-gradient(135deg,#0f172a,#1e293b);
   --card-bg:rgba(30,41,59,0.6);
   --text-color:#f1f5f9;
 }
-
 body{
   margin:0;
   font-family:Segoe UI,Arial;
   background:var(--bg-gradient);
   transition:.4s;
 }
-
 .container{max-width:1200px;margin:auto;padding:20px;}
-
 .products{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -36,7 +32,6 @@ body{
 }
 @media(max-width:992px){.products{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:600px){.products{grid-template-columns:1fr;}}
-
 .card{
   backdrop-filter:blur(15px);
   background:var(--card-bg);
@@ -47,7 +42,6 @@ body{
   transition:.3s;
 }
 .card:hover{transform:translateY(-8px);} 
-
 .image-wrapper{overflow:hidden;border-radius:15px;}
 .card img{
   width:100%;
@@ -56,7 +50,6 @@ body{
   transition:transform .4s ease;
 }
 .image-wrapper:hover img{transform:scale(1.15);} 
-
 button{
   width:100%;
   padding:10px;
@@ -69,60 +62,24 @@ button{
 .primary{background:#2563eb;color:white;}
 .view{background:#111827;color:white;}
 .admin-btn{background:#ef4444;color:white;width:auto;padding:8px 15px;}
-
-.toggle-mode{
-  background:#111827;
-  color:white;
-  padding:8px 15px;
-  border-radius:20px;
-  cursor:pointer;
-  border:none;
-  margin-left:10px;
-}
-
-.admin-panel{
-  display:none;
-  margin-top:20px;
-  padding:20px;
-  border-radius:20px;
-  background:white;
-}
-
-input{
-  width:100%;
-  padding:10px;
-  margin-top:8px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-
-/* Messenger Bubble */
+.toggle-mode{background:#111827;color:white;padding:8px 15px;border-radius:20px;border:none;cursor:pointer;margin-left:10px;}
+.admin-panel{display:none;margin-top:20px;padding:20px;border-radius:20px;background:white;}
+input{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc;}
 .messenger{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#0084ff;
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:white;
-  font-size:28px;
-  cursor:pointer;
-  box-shadow:0 8px 20px rgba(0,0,0,.3);
-  animation:float 2s infinite ease-in-out;
-  z-index:999;
+  position:fixed;bottom:20px;right:20px;background:#0084ff;width:60px;height:60px;border-radius:50%;
+  display:flex;justify-content:center;align-items:center;color:white;font-size:28px;
+  cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.3);animation:float 2s infinite ease-in-out;z-index:999;
 }
 @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-
+#offlineBanner{display:none;background:#f59e0b;color:white;padding:10px;text-align:center;font-weight:bold;}
 </style>
 </head>
 
 <body>
-<div class="container">
 
+<div id="offlineBanner">⚠ You are viewing in OFFLINE mode. Some features may not work.</div>
+
+<div class="container">
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
 <h1 style="color:var(--text-color)">🛒 Gadget Essentials PH</h1>
 <div>
@@ -131,14 +88,12 @@ input{
 </div>
 </div>
 
-<!-- WELCOME SECTION -->
 <div style="margin-top:30px;padding:40px;border-radius:25px;background:var(--card-bg);backdrop-filter:blur(20px);color:var(--text-color);box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center;">
 <h2>Welcome to Gadget Essentials PH</h2>
 <p><b>Your Trusted Tech Partner for Everyday Essentials</b></p>
-<p>High-quality and affordable gadget accessories designed to keep you powered and connected.</p>
+<p>High-quality and affordable gadget accessories designed to keep you powered and connected anytime, anywhere.</p>
 </div>
 
-<!-- ADMIN PANEL -->
 <div class="admin-panel" id="adminPanel">
 <h3>Admin Product Editor</h3>
 <input id="pname" placeholder="Product Name">
@@ -168,8 +123,14 @@ alert("Admin Activated");
 }else if(pass!==null){alert("Wrong password");}
 }
 
+const pname=document.getElementById("pname");
+const pprice=document.getElementById("pprice");
+const pimg=document.getElementById("pimg");
+const plink=document.getElementById("plink");
+const pidField=document.getElementById("pid");
+
 function saveProduct(){
-if(!isAdmin){alert("Login as admin first");return;}
+if(!isAdmin){alert("Login first");return;}
 const name=pname.value;
 const price=pprice.value;
 const img=pimg.value;
@@ -186,12 +147,6 @@ localStorage.setItem("products",JSON.stringify(products));
 clearForm();
 renderProducts();
 }
-
-const pname=document.getElementById("pname");
-const pprice=document.getElementById("pprice");
-const pimg=document.getElementById("pimg");
-const plink=document.getElementById("plink");
-const pidField=document.getElementById("pid");
 
 function clearForm(){pname.value="";pprice.value="";pimg.value="";plink.value="";pidField.value="";}
 
@@ -214,7 +169,20 @@ gsap.from(".card",{y:20,opacity:0,stagger:0.1});
 function toggleMode(){document.body.classList.toggle("dark");}
 function openMessenger(){window.open("https://m.me/YOUR_FACEBOOK_PAGE","_blank");}
 
+function updateOnlineStatus(){
+const banner=document.getElementById("offlineBanner");
+if(!navigator.onLine){banner.style.display="block";}else{banner.style.display="none";}
+}
+window.addEventListener("load",updateOnlineStatus);
+window.addEventListener("online",updateOnlineStatus);
+window.addEventListener("offline",updateOnlineStatus);
+
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('sw.js').then(()=>console.log('Service Worker Registered'));
+}
+
 renderProducts();
 </script>
+
 </body>
 </html>
