@@ -52,7 +52,13 @@ header p{opacity:.8;margin-top:10px}
 
 <div class="container">
 
-<div class="admin-panel">
+<div id="adminLogin" class="admin-panel">
+<h2>Admin Login</h2>
+<input type="password" id="adminPassword" placeholder="Enter Admin Password">
+<button onclick="checkPassword()">Login</button>
+</div>
+
+<div class="admin-panel" id="adminPanel" style="display:none;">
 <h2>Admin Product Editor</h2>
 <input type="hidden" id="editIndex">
 <input type="text" id="productName" placeholder="Product Name">
@@ -110,6 +116,17 @@ function saveProduct(){
   document.getElementById("productImage").value="";
   document.getElementById("productLink").value="";
   renderProducts();
+
+function checkPassword(){
+  const password = document.getElementById("adminPassword").value;
+  const correctPassword = "01291989sd"; // You can change this
+  if(password === correctPassword){
+    document.getElementById("adminLogin").style.display="none";
+    document.getElementById("adminPanel").style.display="block";
+  }else{
+    alert("Wrong password!");
+  }
+}
 }
 
 function editProduct(index){
