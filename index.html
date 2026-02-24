@@ -11,9 +11,7 @@
       padding: 20px;
       background: linear-gradient(to right, #e0f2fe, #dcfce7);
     }
-    h1 {
-      color: #0f172a;
-    }
+    h1 { color: #0f172a; }
     .header {
       display: flex;
       justify-content: space-between;
@@ -70,7 +68,7 @@
 
 <div class="header">
   <h1>Gadget Essentials PH</h1>
-  <button onclick="toggleAdmin()">Toggle Admin</button>
+  <button onclick="openAdminLogin()">Admin Login</button>
 </div>
 
 <input type="text" id="search" placeholder="Search products..." onkeyup="renderProducts()">
@@ -82,12 +80,15 @@
   <input type="text" id="image" placeholder="Image URL">
   <input type="text" id="link" placeholder="Shopee Product Link">
   <button class="btn buy" onclick="addProduct()">Add Product</button>
+  <button class="btn delete" onclick="logoutAdmin()">Logout Admin</button>
 </div>
 
 <div class="products" id="products"></div>
 
 <script>
+  const ADMIN_PASSWORD = "admin123"; // 🔐 Change this password
   let isAdmin = false;
+
   let products = JSON.parse(localStorage.getItem("products")) || [
     {
       id: 1,
@@ -102,13 +103,28 @@
     localStorage.setItem("products", JSON.stringify(products));
   }
 
-  function toggleAdmin() {
-    isAdmin = !isAdmin;
-    document.getElementById("adminPanel").style.display = isAdmin ? "block" : "none";
+  function openAdminLogin() {
+    const password = prompt("Enter Admin Password:");
+    if (password === ADMIN_PASSWORD) {
+      isAdmin = true;
+      document.getElementById("adminPanel").style.display = "block";
+      alert("Admin access granted");
+      renderProducts();
+    } else if (password !== null) {
+      alert("Incorrect password");
+    }
+  }
+
+  function logoutAdmin() {
+    isAdmin = false;
+    document.getElementById("adminPanel").style.display = "none";
+    alert("Admin logged out");
     renderProducts();
   }
 
   function addProduct() {
+    if (!isAdmin) return alert("Admin access required");
+
     const name = document.getElementById("name").value;
     const price = document.getElementById("price").value;
     const image = document.getElementById("image").value;
@@ -135,6 +151,7 @@
   }
 
   function deleteProduct(id) {
+    if (!isAdmin) return alert("Admin access required");
     products = products.filter(p => p.id !== id);
     saveProducts();
     renderProducts();
