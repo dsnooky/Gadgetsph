@@ -68,6 +68,7 @@ button{
 }
 .primary{background:#2563eb;color:white;}
 .view{background:#111827;color:white;}
+.admin-btn{background:#ef4444;color:white;width:auto;padding:8px 15px;}
 
 .toggle-mode{
   background:#111827;
@@ -76,6 +77,23 @@ button{
   border-radius:20px;
   cursor:pointer;
   border:none;
+  margin-left:10px;
+}
+
+.admin-panel{
+  display:none;
+  margin-top:20px;
+  padding:20px;
+  border-radius:20px;
+  background:white;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
 }
 
 /* Messenger Bubble */
@@ -97,61 +115,85 @@ button{
   animation:float 2s infinite ease-in-out;
   z-index:999;
 }
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 
-@keyframes float{
-  0%,100%{transform:translateY(0);} 
-  50%{transform:translateY(-8px);} 
-}
-
-.modal{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,.6);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-}
-.modal-content{
-  background:white;
-  padding:25px;
-  border-radius:20px;
-  width:90%;
-  max-width:400px;
-  text-align:center;
-}
-.modal-content img{width:100%;border-radius:15px;}
-.close{background:#ef4444;color:white;}
 </style>
 </head>
 
 <body>
 <div class="container">
+
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
 <h1 style="color:var(--text-color)">🛒 Gadget Essentials PH</h1>
-<button class="toggle-mode" onclick="toggleMode()">🌙 Toggle Mode</button>
+<div>
+<button class="admin-btn" onclick="loginAdmin()">Admin</button>
+<button class="toggle-mode" onclick="toggleMode()">🌙 Mode</button>
+</div>
+</div>
+
+<!-- WELCOME SECTION -->
+<div style="margin-top:30px;padding:40px;border-radius:25px;background:var(--card-bg);backdrop-filter:blur(20px);color:var(--text-color);box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center;">
+<h2>Welcome to Gadget Essentials PH</h2>
+<p><b>Your Trusted Tech Partner for Everyday Essentials</b></p>
+<p>High-quality and affordable gadget accessories designed to keep you powered and connected.</p>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+<h3>Admin Product Editor</h3>
+<input id="pname" placeholder="Product Name">
+<input id="pprice" type="number" placeholder="Price">
+<input id="pimg" placeholder="Image URL">
+<input id="plink" placeholder="Shopee Link">
+<input id="pid" type="hidden">
+<button class="primary" onclick="saveProduct()">Save Product</button>
 </div>
 
 <div class="products" id="products"></div>
 </div>
 
-<!-- QUICK VIEW MODAL -->
-<div class="modal" id="quickView">
-<div class="modal-content">
-<img id="qImg">
-<h3 id="qName"></h3>
-<p id="qPrice"></p>
-<button class="primary" id="qBuy">Buy Now</button>
-<button class="close" onclick="closeModal()">Close</button>
-</div>
-</div>
-
-<!-- Messenger Bubble -->
 <div class="messenger" onclick="openMessenger()">💬</div>
 
 <script>
+const ADMIN_PASSWORD="admin123";
+let isAdmin=false;
 let products=JSON.parse(localStorage.getItem("products"))||[];
+
+function loginAdmin(){
+const pass=prompt("Enter Admin Password");
+if(pass===ADMIN_PASSWORD){
+isAdmin=true;
+document.getElementById("adminPanel").style.display="block";
+alert("Admin Activated");
+}else if(pass!==null){alert("Wrong password");}
+}
+
+function saveProduct(){
+if(!isAdmin){alert("Login as admin first");return;}
+const name=pname.value;
+const price=pprice.value;
+const img=pimg.value;
+const link=plink.value;
+const pid=pidField.value;
+if(!name||!price||!link){alert("Fill all fields");return;}
+if(pid){
+const product=products.find(p=>p.id==pid);
+product.name=name;product.price=price;product.image=img;product.link=link;
+}else{
+products.push({id:Date.now(),name,price,image:img||"https://via.placeholder.com/500",link});
+}
+localStorage.setItem("products",JSON.stringify(products));
+clearForm();
+renderProducts();
+}
+
+const pname=document.getElementById("pname");
+const pprice=document.getElementById("pprice");
+const pimg=document.getElementById("pimg");
+const plink=document.getElementById("plink");
+const pidField=document.getElementById("pid");
+
+function clearForm(){pname.value="";pprice.value="";pimg.value="";plink.value="";pidField.value="";}
 
 function renderProducts(){
 const container=document.getElementById("products");
@@ -160,36 +202,17 @@ products.forEach(p=>{
 const card=document.createElement("div");
 card.className="card";
 card.innerHTML=`
-<div class="image-wrapper">
-<img src="${p.image}">
-</div>
+<div class="image-wrapper"><img src="${p.image}"></div>
 <h3>${p.name}</h3>
 <p><b>₱${p.price}</b></p>
-<button class="view" onclick="quickView(${p.id})">Quick View</button>
-<button class="primary" onclick="window.open('${p.link}','_blank')">Buy</button>
-`;
+<button class="primary" onclick="window.open('${p.link}','_blank')">Buy</button>`;
 container.appendChild(card);
 });
-gsap.from(".card",{y:30,opacity:0,stagger:0.1});
+gsap.from(".card",{y:20,opacity:0,stagger:0.1});
 }
 
-function quickView(id){
-const p=products.find(x=>x.id===id);
-document.getElementById("quickView").style.display="flex";
-document.getElementById("qImg").src=p.image;
-document.getElementById("qName").innerText=p.name;
-document.getElementById("qPrice").innerText="₱"+p.price;
-document.getElementById("qBuy").onclick=function(){window.open(p.link,'_blank')};
-}
-function closeModal(){document.getElementById("quickView").style.display="none";}
-
-function toggleMode(){
-document.body.classList.toggle("dark");
-}
-
-function openMessenger(){
-window.open("https://m.me/YOUR_FACEBOOK_PAGE","_blank");
-}
+function toggleMode(){document.body.classList.toggle("dark");}
+function openMessenger(){window.open("https://m.me/YOUR_FACEBOOK_PAGE","_blank");}
 
 renderProducts();
 </script>
