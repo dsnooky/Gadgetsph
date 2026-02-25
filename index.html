@@ -8,13 +8,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <style>
-
 body{
 margin:0;
 font-family:Poppins,Segoe UI;
 background:linear-gradient(135deg,#0ea5e9,#22c55e);
 color:white;
-transition:.4s;
 }
 
 .container{
@@ -23,7 +21,6 @@ margin:auto;
 padding:20px;
 }
 
-/* HEADER */
 .header{
 display:flex;
 justify-content:space-between;
@@ -31,7 +28,7 @@ align-items:center;
 flex-wrap:wrap;
 }
 
-/* PRODUCT GRID */
+/* PRODUCTS */
 .products{
 display:grid;
 grid-template-columns:repeat(4,1fr);
@@ -47,7 +44,6 @@ margin-top:30px;
 .products{grid-template-columns:1fr;}
 }
 
-/* CARD */
 .card{
 backdrop-filter:blur(15px);
 background:rgba(255,255,255,.2);
@@ -83,18 +79,17 @@ cursor:pointer;
 .edit{background:#f59e0b;color:white;}
 .delete{background:#ef4444;color:white;}
 
-/* LOGIN BUTTON */
 .admin-btn{
 background:#111827;
 color:white;
 padding:8px 15px;
-border:none;
 border-radius:10px;
+border:none;
 cursor:pointer;
 }
 
 /* LOGIN POPUP */
-.login-popup{
+#loginPopup{
 display:none;
 position:fixed;
 top:50%;
@@ -104,12 +99,12 @@ background:white;
 color:black;
 padding:30px;
 border-radius:20px;
-box-shadow:0 10px 40px rgba(0,0,0,.4);
 z-index:999;
+box-shadow:0 10px 40px rgba(0,0,0,.4);
 }
 
 /* ADMIN PANEL */
-.admin-panel{
+#adminPanel{
 display:none;
 background:white;
 color:black;
@@ -118,7 +113,6 @@ border-radius:20px;
 margin-top:20px;
 }
 
-/* INPUTS */
 input,textarea{
 width:100%;
 padding:10px;
@@ -126,24 +120,11 @@ margin-top:8px;
 border-radius:8px;
 border:1px solid #ccc;
 }
-
-/* OFFLINE */
-#offlineBanner{
-display:none;
-background:#f59e0b;
-padding:10px;
-text-align:center;
-font-weight:bold;
-}
-
 </style>
+
 </head>
 
 <body>
-
-<div id="offlineBanner">
-⚠ You are viewing offline mode
-</div>
 
 <div class="container">
 
@@ -155,31 +136,16 @@ font-weight:bold;
 </button>
 </div>
 
-<!-- WELCOME -->
-<div style="margin-top:30px;text-align:center">
-<h2>Welcome to Gadget Essentials PH</h2>
-<p>Your Trusted Tech Accessories Store</p>
-</div>
-
-<!-- LOGIN POPUP -->
-<div class="login-popup" id="loginPopup">
+<!-- LOGIN -->
+<div id="loginPopup">
 <h3>Admin Login</h3>
-
-<input type="password" id="adminPassword"
-placeholder="Enter Password">
-
-<button class="primary" onclick="checkPassword()">
-Login
-</button>
-
-<button class="delete" onclick="toggleLoginPopup()">
-Close
-</button>
+<input type="password" id="adminPassword" placeholder="Enter Password">
+<button class="primary" onclick="checkPassword()">Login</button>
+<button class="delete" onclick="toggleLoginPopup()">Close</button>
 </div>
 
 <!-- ADMIN PANEL -->
-<div class="admin-panel" id="adminPanel">
-
+<div id="adminPanel">
 <h3>Product Editor</h3>
 
 <input type="hidden" id="editIndex">
@@ -190,14 +156,7 @@ Close
 <input id="pimg" placeholder="Image URL">
 <input id="plink" placeholder="Shopee Link">
 
-<button class="primary" onclick="saveProduct()">
-Save Product
-</button>
-
-<button class="delete" onclick="logoutAdmin()">
-Logout
-</button>
-
+<button class="primary" onclick="saveProduct()">Save Product</button>
 </div>
 
 <!-- PRODUCTS -->
@@ -237,7 +196,6 @@ alert("❌ Wrong Password");
 function logoutAdmin(){
 sessionStorage.removeItem("adminLogged");
 isAdmin=false;
-document.getElementById("adminPanel").style.display="none";
 }
 
 /* PRODUCTS */
@@ -287,9 +245,7 @@ plink.value="";
 editIndexField.value="";
 }
 
-/* RENDER */
-function renderProducts(){
-
+/* RENDER PRODUCTS */
 function renderProducts(){
 
 let container=document.getElementById("products");
@@ -299,7 +255,7 @@ products.forEach((p,index)=>{
 
 let adminButtons="";
 
-/* Show edit and delete ONLY if admin is logged in */
+/* SHOW EDIT + DELETE ONLY IF ADMIN */
 if(isAdmin){
 adminButtons=`
 <button class="edit" onclick="editProduct(${index})">
@@ -318,7 +274,7 @@ card.className="card";
 card.innerHTML=`
 <img src="${p.image}">
 <h3>${p.name}</h3>
-<p>${p.desc || ""}</p>
+<p>${p.desc||""}</p>
 <p><b>₱${p.price}</b></p>
 
 <button class="primary"
@@ -333,25 +289,34 @@ container.appendChild(card);
 });
 
 gsap.from(".card",{y:30,opacity:0,stagger:0.1});
-
-}
-/* OFFLINE */
-function updateOnlineStatus(){
-document.getElementById("offlineBanner").style.display =
-navigator.onLine ? "none":"block";
 }
 
-window.addEventListener("load",()=>{
-updateOnlineStatus();
+function editProduct(index){
+let p=products[index];
+
+editIndexField.value=index;
+pname.value=p.name;
+pdesc.value=p.desc;
+pprice.value=p.price;
+pimg.value=p.image;
+plink.value=p.link;
+
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteProduct(index){
+products.splice(index,1);
+localStorage.setItem("products",JSON.stringify(products));
 renderProducts();
+}
 
+/* LOAD */
+window.addEventListener("load",()=>{
 if(isAdmin){
 document.getElementById("adminPanel").style.display="block";
 }
+renderProducts();
 });
-
-window.addEventListener("online",updateOnlineStatus);
-window.addEventListener("offline",updateOnlineStatus);
 
 </script>
 
