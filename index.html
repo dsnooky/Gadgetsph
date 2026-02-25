@@ -290,6 +290,8 @@ editIndexField.value="";
 /* RENDER */
 function renderProducts(){
 
+function renderProducts(){
+
 let container=document.getElementById("products");
 container.innerHTML="";
 
@@ -297,6 +299,7 @@ products.forEach((p,index)=>{
 
 let adminButtons="";
 
+/* Show edit and delete ONLY if admin is logged in */
 if(isAdmin){
 adminButtons=`
 <button class="edit" onclick="editProduct(${index})">
@@ -315,7 +318,7 @@ card.className="card";
 card.innerHTML=`
 <img src="${p.image}">
 <h3>${p.name}</h3>
-<p>${p.desc||""}</p>
+<p>${p.desc || ""}</p>
 <p><b>₱${p.price}</b></p>
 
 <button class="primary"
@@ -330,8 +333,8 @@ container.appendChild(card);
 });
 
 gsap.from(".card",{y:30,opacity:0,stagger:0.1});
-}
 
+}
 /* OFFLINE */
 function updateOnlineStatus(){
 document.getElementById("offlineBanner").style.display =
