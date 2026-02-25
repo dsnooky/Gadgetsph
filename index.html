@@ -3,161 +3,377 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gadget Essentials PH</title>
+<title>Gadget Essentials PH | Pro Secure Store</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
-body{background:linear-gradient(135deg,#0f172a,#0ea5e9);color:#fff;transition:.3s}
-header{padding:40px 20px;text-align:center}
-header h1{font-size:2.5rem;font-weight:700}
-header p{opacity:.8;margin-top:10px}
+:root{
+ --bg-gradient:linear-gradient(135deg,#0ea5e9,#22c55e);
+ --card-bg:rgba(255,255,255,0.2);
+ --text-color:white;
+}
 
-.container{width:95%;max-width:1400px;margin:auto}
+body.dark{
+ --bg-gradient:linear-gradient(135deg,#0f172a,#1e293b);
+ --card-bg:rgba(30,41,59,0.6);
+ --text-color:#f1f5f9;
+}
 
-.products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:60px}
-@media(max-width:1024px){.products{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.products{grid-template-columns:1fr}}
+body{
+ margin:0;
+ font-family:Poppins,Segoe UI,Arial;
+ background:var(--bg-gradient);
+ transition:.4s;
+}
 
-.card{background:rgba(255,255,255,.1);backdrop-filter:blur(15px);border-radius:20px;padding:15px;box-shadow:0 10px 30px rgba(0,0,0,.3);transition:.3s}
-.card:hover{transform:translateY(-8px)}
-.card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:15px;transition:.3s}
-.card img:hover{transform:scale(1.05)}
-.card h3{margin:10px 0;font-size:1.1rem}
-.card p{font-size:.9rem;opacity:.8}
-.card .price{font-weight:600;margin:8px 0}
-.card button{width:100%;padding:10px;border:none;border-radius:12px;background:#10b981;color:#fff;font-weight:600;cursor:pointer;transition:.3s}
-.card button:hover{background:#059669}
+.container{
+ max-width:1200px;
+ margin:auto;
+ padding:20px;
+}
 
-.admin-panel{background:#111827;padding:30px;border-radius:20px;margin-bottom:40px}
-.admin-panel h2{margin-bottom:15px}
-.admin-panel input,.admin-panel textarea{width:100%;padding:10px;margin-bottom:10px;border-radius:10px;border:none}
-.admin-panel button{padding:10px 15px;border:none;border-radius:10px;background:#3b82f6;color:#fff;font-weight:600;cursor:pointer}
-.admin-panel button:hover{background:#2563eb}
-.edit-btn{background:#f59e0b;margin-top:5px}
-.delete-btn{background:#ef4444;margin-top:5px}
+/* PRODUCT GRID */
+.products{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:20px;
+ margin-top:30px;
+}
 
-#offlineBanner{display:none;background:#f59e0b;color:#fff;padding:10px;text-align:center;font-weight:600}
+@media(max-width:1024px){
+ .products{grid-template-columns:repeat(2,1fr);}
+}
+
+@media(max-width:600px){
+ .products{grid-template-columns:1fr;}
+}
+
+/* PRODUCT CARD */
+.card{
+ backdrop-filter:blur(15px);
+ background:var(--card-bg);
+ border-radius:20px;
+ padding:15px;
+ color:var(--text-color);
+ box-shadow:0 8px 32px rgba(0,0,0,.2);
+ transition:.3s;
+}
+
+.card:hover{
+ transform:translateY(-8px);
+}
+
+.card img{
+ width:100%;
+ aspect-ratio:1/1;
+ object-fit:cover;
+ border-radius:15px;
+ transition:.4s;
+}
+
+.card img:hover{
+ transform:scale(1.08);
+}
+
+/* BUTTONS */
+button{
+ width:100%;
+ padding:10px;
+ border:none;
+ border-radius:10px;
+ margin-top:8px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.primary{
+ background:#2563eb;
+ color:white;
+}
+
+.edit{
+ background:#f59e0b;
+ color:white;
+}
+
+.delete{
+ background:#ef4444;
+ color:white;
+}
+
+/* ADMIN */
+.admin-panel{
+ display:none;
+ background:white;
+ padding:25px;
+ border-radius:20px;
+ margin-top:20px;
+}
+
+.admin-panel input,
+.admin-panel textarea{
+ width:100%;
+ padding:10px;
+ margin-top:8px;
+ border-radius:8px;
+ border:1px solid #ccc;
+}
+
+/* LOGIN */
+.login-box{
+ background:white;
+ padding:25px;
+ border-radius:20px;
+ margin-top:20px;
+}
+
+.toggle-mode{
+ background:#111827;
+ color:white;
+ padding:8px 15px;
+ border-radius:20px;
+ border:none;
+ cursor:pointer;
+}
+
+/* MESSENGER */
+.messenger{
+ position:fixed;
+ bottom:20px;
+ right:20px;
+ background:#0084ff;
+ width:60px;
+ height:60px;
+ border-radius:50%;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ color:white;
+ font-size:28px;
+ cursor:pointer;
+ box-shadow:0 8px 20px rgba(0,0,0,.3);
+ animation:float 2s infinite ease-in-out;
+ z-index:999;
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0);}
+ 50%{transform:translateY(-8px);}
+}
+
+#offlineBanner{
+ display:none;
+ background:#f59e0b;
+ color:white;
+ padding:10px;
+ text-align:center;
+ font-weight:bold;
+}
 </style>
 </head>
+
 <body>
 
-<div id="offlineBanner">⚠ You are viewing in OFFLINE mode.</div>
-
-<header>
-<h1>Welcome to Gadget Essentials PH</h1>
-<p>Premium Tech Accessories • Powerbanks • Gadget Essentials</p>
-</header>
+<div id="offlineBanner">
+⚠ You are viewing offline mode
+</div>
 
 <div class="container">
 
-<div id="adminLogin" class="admin-panel">
-<h2>Admin Login</h2>
-<input type="password" id="adminPassword" placeholder="Enter Admin Password">
-<button onclick="checkPassword()">Login</button>
+<h1 style="color:var(--text-color)">🛒 Gadget Essentials PH</h1>
+
+<button class="toggle-mode" onclick="toggleMode()">🌙 Toggle Mode</button>
+
+<!-- LOGIN -->
+<div class="login-box" id="adminLogin">
+<h2>🔐 Admin Login</h2>
+<input type="password" id="adminPassword" placeholder="Enter Password">
+<button class="primary" onclick="checkPassword()">Login</button>
 </div>
 
-<div class="admin-panel" id="adminPanel" style="display:none;">
-<h2>Admin Product Editor</h2>
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+<h2>Product Editor</h2>
+
 <input type="hidden" id="editIndex">
-<input type="text" id="productName" placeholder="Product Name">
-<textarea id="productDesc" placeholder="Product Description"></textarea>
-<input type="text" id="productPrice" placeholder="Price">
-<input type="text" id="productImage" placeholder="Image URL">
-<input type="text" id="productLink" placeholder="Shopee Affiliate Link">
-<button onclick="saveProduct()">Save Product</button>
+
+<input id="pname" placeholder="Product Name">
+<textarea id="pdesc" placeholder="Product Description"></textarea>
+<input id="pprice" placeholder="Price">
+<input id="pimg" placeholder="Image URL">
+<input id="plink" placeholder="Shopee Link">
+
+<button class="primary" onclick="saveProduct()">Save Product</button>
+
+<button class="delete" onclick="logoutAdmin()">Logout</button>
 </div>
 
-<div class="products" id="productList"></div>
+<!-- PRODUCTS -->
+<div class="products" id="products"></div>
 
 </div>
+
+<div class="messenger" onclick="openMessenger()">💬</div>
 
 <script>
-let products = JSON.parse(localStorage.getItem("products")) || [];
 
-function renderProducts(){
-  const container=document.getElementById("productList");
-  container.innerHTML="";
-  products.forEach((product,index)=>{
-    container.innerHTML+=`
-      <div class="card">
-        <img src="${product.image}" alt="">
-        <h3>${product.name}</h3>
-        <p>${product.desc}</p>
-        <div class="price">₱${product.price}</div>
-        <button onclick="window.open('${product.link}','_blank')">Buy Now</button>
-        <button class="edit-btn" onclick="editProduct(${index})">Edit</button>
-        <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
-      </div>
-    `;
-  });
+/* ===== SECURITY ===== */
+const ADMIN_PASSWORD="GEPH2026";
+let isAdmin=sessionStorage.getItem("adminLogged")==="true";
+
+/* ===== LOGIN ===== */
+function checkPassword(){
+ let pass=document.getElementById("adminPassword").value;
+
+ if(pass===ADMIN_PASSWORD){
+  sessionStorage.setItem("adminLogged","true");
+  isAdmin=true;
+  showAdmin();
+  alert("✅ Secure Access Granted");
+ }else{
+  alert("❌ Wrong Password");
+ }
 }
+
+function logoutAdmin(){
+ sessionStorage.removeItem("adminLogged");
+ isAdmin=false;
+ hideAdmin();
+}
+
+/* ===== ADMIN UI ===== */
+function showAdmin(){
+ document.getElementById("adminLogin").style.display="none";
+ document.getElementById("adminPanel").style.display="block";
+}
+
+function hideAdmin(){
+ document.getElementById("adminLogin").style.display="block";
+ document.getElementById("adminPanel").style.display="none";
+}
+
+/* ===== PRODUCT SYSTEM ===== */
+let products=JSON.parse(localStorage.getItem("products"))||[];
 
 function saveProduct(){
-  const name=document.getElementById("productName").value;
-  const desc=document.getElementById("productDesc").value;
-  const price=document.getElementById("productPrice").value;
-  const image=document.getElementById("productImage").value;
-  const link=document.getElementById("productLink").value;
-  const editIndex=document.getElementById("editIndex").value;
 
-  if(editIndex===""){
-    products.push({name,desc,price,image,link});
-  }else{
-    products[editIndex]={name,desc,price,image,link};
-  }
+ if(!isAdmin){
+  alert("Login first");
+  return;
+ }
 
-  localStorage.setItem("products",JSON.stringify(products));
-  document.getElementById("editIndex").value="";
-  document.getElementById("productName").value="";
-  document.getElementById("productDesc").value="";
-  document.getElementById("productPrice").value="";
-  document.getElementById("productImage").value="";
-  document.getElementById("productLink").value="";
-  renderProducts();
+ let name=pname.value;
+ let desc=pdesc.value;
+ let price=pprice.value;
+ let img=pimg.value;
+ let link=plink.value;
+ let editIndex=editIndexField.value;
 
-function checkPassword(){
-  const password = document.getElementById("adminPassword").value;
-  const correctPassword = "GEPH2026"; // You can change this
-  if(password === correctPassword){
-    document.getElementById("adminLogin").style.display="none";
-    document.getElementById("adminPanel").style.display="block";
-  }else{
-    alert("Wrong password!");
-  }
+ if(!name||!price||!link){
+  alert("Fill all fields");
+  return;
+ }
+
+ if(editIndex===""){
+  products.push({
+   name,desc,price,image:img||"https://via.placeholder.com/500",link
+  });
+ }else{
+  products[editIndex]={name,desc,price,image:img,link};
+ }
+
+ localStorage.setItem("products",JSON.stringify(products));
+ clearForm();
+ renderProducts();
 }
+
+const pname=document.getElementById("pname");
+const pdesc=document.getElementById("pdesc");
+const pprice=document.getElementById("pprice");
+const pimg=document.getElementById("pimg");
+const plink=document.getElementById("plink");
+const editIndexField=document.getElementById("editIndex");
+
+function clearForm(){
+ pname.value="";
+ pdesc.value="";
+ pprice.value="";
+ pimg.value="";
+ plink.value="";
+ editIndexField.value="";
 }
 
 function editProduct(index){
-  const product=products[index];
-  document.getElementById("editIndex").value=index;
-  document.getElementById("productName").value=product.name;
-  document.getElementById("productDesc").value=product.desc;
-  document.getElementById("productPrice").value=product.price;
-  document.getElementById("productImage").value=product.image;
-  document.getElementById("productLink").value=product.link;
+ let p=products[index];
+ editIndexField.value=index;
+ pname.value=p.name;
+ pdesc.value=p.desc;
+ pprice.value=p.price;
+ pimg.value=p.image;
+ plink.value=p.link;
+ window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function deleteProduct(index){
-  products.splice(index,1);
-  localStorage.setItem("products",JSON.stringify(products));
-  renderProducts();
+ products.splice(index,1);
+ localStorage.setItem("products",JSON.stringify(products));
+ renderProducts();
 }
 
-function updateOnlineStatus(){
-  const banner=document.getElementById("offlineBanner");
-  banner.style.display=navigator.onLine?"none":"block";
+function renderProducts(){
+
+ let container=document.getElementById("products");
+ container.innerHTML="";
+
+ products.forEach((p,index)=>{
+  let card=document.createElement("div");
+  card.className="card";
+
+  card.innerHTML=`
+   <img src="${p.image}">
+   <h3>${p.name}</h3>
+   <p>${p.desc||""}</p>
+   <p><b>₱${p.price}</b></p>
+   <button class="primary" onclick="window.open('${p.link}','_blank')">Buy Now</button>
+   ${isAdmin?`
+   <button class="edit" onclick="editProduct(${index})">Edit</button>
+   <button class="delete" onclick="deleteProduct(${index})">Delete</button>
+   `:""}
+  `;
+
+  container.appendChild(card);
+ });
+
+ gsap.from(".card",{y:30,opacity:0,stagger:0.1});
 }
-window.addEventListener("load",updateOnlineStatus);
+
+/* ===== UI FEATURES ===== */
+function toggleMode(){
+ document.body.classList.toggle("dark");
+}
+
+function openMessenger(){
+ window.open("https://m.me/YOUR_FACEBOOK_PAGE","_blank");
+}
+
+/* ===== OFFLINE DETECTOR ===== */
+function updateOnlineStatus(){
+ document.getElementById("offlineBanner").style.display =
+ navigator.onLine ? "none" : "block";
+}
+
+window.addEventListener("load",()=>{
+ updateOnlineStatus();
+ renderProducts();
+
+ if(isAdmin) showAdmin();
+ else hideAdmin();
+});
+
 window.addEventListener("online",updateOnlineStatus);
 window.addEventListener("offline",updateOnlineStatus);
 
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js');
-}
-
-renderProducts();
 </script>
 
 </body>
