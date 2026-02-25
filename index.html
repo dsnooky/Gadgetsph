@@ -248,23 +248,21 @@ editIndexField.value="";
 /* RENDER PRODUCTS */
 function renderProducts(){
 
+function renderProducts(){
+
 let container=document.getElementById("products");
 container.innerHTML="";
 
 products.forEach((p,index)=>{
 
+// Default button = BUY ONLY
 let adminButtons="";
 
-/* SHOW EDIT + DELETE ONLY IF ADMIN */
+// If admin is logged in → show edit + delete
 if(isAdmin){
 adminButtons=`
-<button class="edit" onclick="editProduct(${index})">
-Edit
-</button>
-
-<button class="delete" onclick="deleteProduct(${index})">
-Delete
-</button>
+<button class="edit" onclick="editProduct(${index})">Edit</button>
+<button class="delete" onclick="deleteProduct(${index})">Delete</button>
 `;
 }
 
@@ -286,11 +284,12 @@ ${adminButtons}
 `;
 
 container.appendChild(card);
+
 });
 
 gsap.from(".card",{y:30,opacity:0,stagger:0.1});
-}
 
+}
 function editProduct(index){
 let p=products[index];
 
