@@ -25,6 +25,56 @@ body{
     color:#fff;
 }
 
+.payment-box{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+align-items:center;
+}
+
+.gcash-card{
+background:#1a1a1a;
+padding:30px;
+border-radius:20px;
+text-align:center;
+}
+
+.gcash-card i{
+font-size:40px;
+color:#00e0ff;
+margin-bottom:15px;
+}
+
+.qr{
+width:200px;
+margin:20px 0;
+border-radius:15px;
+}
+
+.proof-form{
+background:#1a1a1a;
+padding:30px;
+border-radius:20px;
+}
+
+.proof-form input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+}
+
+.proof-form button{
+padding:12px 25px;
+border:none;
+background:#00e0ff;
+color:#000;
+border-radius:50px;
+font-weight:600;
+cursor:pointer;
+}
+
 /* NAVBAR */
 nav{
     position:fixed;
@@ -269,6 +319,37 @@ footer{
 <h2>Let’s Grow Your Business Online</h2>
 <p>Professional website management for serious business owners.</p>
 <a href="#contact" class="btn">Start Today</a>
+</div>
+</section>
+
+<section class="section" id="payment">
+<h2>Secure Your Slot</h2>
+
+<div class="payment-box">
+
+<div class="gcash-card">
+<h3><i class="fas fa-wallet"></i> Pay via GCash</h3>
+
+<img src="your-gcash-qr.png" alt="GCash QR" class="qr">
+
+<p>Scan the QR code using your GCash app and send payment.</p>
+
+<p><strong>GCash Name:</strong> Your Full Name</p>
+<p><strong>GCash Number:</strong> 09XXXXXXXXX</p>
+
+</div>
+
+<form class="proof-form">
+<h3>Submit Payment Proof</h3>
+
+<input type="text" placeholder="Your Full Name" required>
+<input type="email" placeholder="Your Email" required>
+<input type="text" placeholder="Reference Number" required>
+<input type="file" required>
+
+<button type="submit">Submit Payment</button>
+</form>
+
 </div>
 </section>
 
