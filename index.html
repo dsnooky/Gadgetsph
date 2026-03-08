@@ -24,107 +24,67 @@ color:white;
 overflow-x:hidden;
 }
 
-/* MESSENGER FLOATING BUTTON */
-.messenger-btn{
+/* SCROLL PROGRESS BAR */
+
+#progressBar{
 position:fixed;
-bottom:25px;
-right:25px;
-width:65px;
-height:65px;
-border-radius:50%;
-background:#c6a55c;
-display:flex;
-align-items:center;
-justify-content:center;
-color:black;
-font-size:28px;
-text-decoration:none;
-box-shadow:0 0 40px rgba(198,165,92,.8);
-animation:pulse 2s infinite;
-z-index:9999;
-transition:.4s;
-}
-
-.messenger-btn:hover{
-transform:scale(1.1);
-}
-
-/* PULSE ANIMATION */
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.15);}
-100%{transform:scale(1);}
-}
-
-/* MOBILE ADJUSTMENT */
-@media(max-width:768px){
-.messenger-btn{
-width:58px;
-height:58px;
-font-size:24px;
-}
-}
-
-/* ===== LOADER ===== */
-#loader{
-position:fixed;
-inset:0;
-background:black;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.loader-text{
-font-family:'Playfair Display',serif;
-color:#c6a55c;
-font-size:32px;
-letter-spacing:6px;
-}
-
-.loader-line{
-width:0;
-height:2px;
-background:#c6a55c;
-animation:loadLine 2s forwards;
-}
-
-@keyframes loadLine{
-to{width:220px;}
-}
-
-/* ===== GOLD PARTICLES BACKGROUND ===== */
-
-.particles{
-position:fixed;
-inset:0;
-z-index:-2;
-}
-
-.particles span{
-position:absolute;
-width:3px;
+top:0;
+left:0;
 height:3px;
+width:0%;
 background:#c6a55c;
-opacity:.4;
-border-radius:50%;
-animation:floatParticles linear infinite;
+z-index:9999;
+box-shadow:0 0 10px #c6a55c;
 }
 
-@keyframes floatParticles{
-from{
-transform:translateY(0);
-opacity:.6;
-}
-to{
-transform:translateY(-120vh);
-opacity:0;
-}
+/* NAV */
+
+nav{
+position:fixed;
+width:100%;
+padding:20px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,.6);
+backdrop-filter:blur(20px);
+z-index:1000;
 }
 
-/* ===== PARALLAX BACKGROUND ===== */
+nav h2{
+color:#c6a55c;
+font-family:'Playfair Display',serif;
+}
+
+/* NAV LINKS */
+
+.nav-links{
+display:flex;
+gap:25px;
+list-style:none;
+}
+
+nav a{
+color:#aaa;
+text-decoration:none;
+font-size:14px;
+transition:.3s;
+}
+
+nav a:hover{
+color:#c6a55c;
+}
+
+/* MOBILE MENU */
+
+.menu-btn{
+display:none;
+font-size:22px;
+cursor:pointer;
+color:#c6a55c;
+}
+
+/* HERO */
 
 .hero{
 height:100vh;
@@ -176,6 +136,7 @@ margin:25px 0;
 }
 
 /* BUTTON */
+
 .btn{
 display:inline-block;
 padding:15px 40px;
@@ -191,42 +152,8 @@ transform:translateY(-3px);
 box-shadow:0 0 40px rgba(198,165,92,.8);
 }
 
-/* NAV */
-nav{
-position:fixed;
-width:100%;
-padding:20px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(0,0,0,.6);
-backdrop-filter:blur(20px);
-z-index:1000;
-}
-
-nav h2{
-color:#c6a55c;
-font-family:'Playfair Display',serif;
-}
-
-nav ul{
-display:flex;
-gap:25px;
-list-style:none;
-}
-
-nav a{
-color:#aaa;
-text-decoration:none;
-font-size:14px;
-transition:.3s;
-}
-
-nav a:hover{
-color:#c6a55c;
-}
-
 /* SECTIONS */
+
 .section{
 padding:140px 8%;
 opacity:0;
@@ -244,68 +171,56 @@ text-align:center;
 color:#c6a55c;
 font-family:'Playfair Display',serif;
 margin-bottom:70px;
-position:relative;
 }
 
-/* GOLD LINE REVEAL */
-.section h2::after{
-content:"";
-display:block;
-height:2px;
-width:0;
-background:#c6a55c;
-margin:15px auto;
-transition:1.2s;
-}
-
-.section.visible h2::after{
-width:120px;
-}
-
-/* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:30px;
 }
 
-/* PORTFOLIO */
-.portfolio-card{
-height:250px;
+.card{
+padding:40px;
 border-radius:20px;
-overflow:hidden;
-position:relative;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.08);
+text-align:center;
+transition:.4s;
 }
 
-.portfolio-card img{
-width:100%;
-height:100%;
-object-fit:cover;
-transition:.6s;
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 40px rgba(198,165,92,.3);
 }
 
-.portfolio-card:hover img{
-transform:scale(1.2);
-filter:brightness(.5);
+/* WHY CHOOSE US */
+
+.feature{
+padding:50px;
+text-align:center;
+border-radius:25px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
 }
 
-.portfolio-card::after{
-content:"View Project";
-position:absolute;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
+.feature i{
+font-size:32px;
+color:#c6a55c;
+margin-bottom:20px;
+}
+
+/* SCARCITY SECTION */
+
+.scarcity{
+text-align:center;
 font-size:22px;
-opacity:0;
-transition:.5s;
-}
-
-.portfolio-card:hover::after{
-opacity:1;
+color:#c6a55c;
+margin-top:40px;
 }
 
 /* PRICING */
+
 .pricing-box{
 max-width:800px;
 margin:auto;
@@ -317,27 +232,87 @@ text-align:center;
 border:1px solid rgba(255,255,255,.08);
 }
 
-/* FLOAT ANIMATIONS */
-@keyframes fadeUp{
+/* PARTICLES */
+
+.particles{
+position:fixed;
+inset:0;
+z-index:-2;
+}
+
+.particles span{
+position:absolute;
+width:3px;
+height:3px;
+background:#c6a55c;
+opacity:.5;
+border-radius:50%;
+animation:floatParticles linear infinite;
+}
+
+@keyframes floatParticles{
 from{
-opacity:0;
-transform:translateY(40px);
+transform:translateY(0);
 }
 to{
-opacity:1;
-transform:translateY(0);
+transform:translateY(-120vh);
 }
 }
 
+/* ANIMATION */
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(40px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+/* MESSENGER */
+
+.messenger-btn{
+position:fixed;
+bottom:25px;
+right:25px;
+width:65px;
+height:65px;
+border-radius:50%;
+background:#c6a55c;
+display:flex;
+align-items:center;
+justify-content:center;
+color:black;
+font-size:28px;
+text-decoration:none;
+box-shadow:0 0 40px rgba(198,165,92,.8);
+z-index:9999;
+}
+
 /* MOBILE */
+
 @media(max-width:768px){
+
+.menu-btn{
+display:block;
+}
+
+.nav-links{
+position:absolute;
+top:70px;
+right:0;
+background:black;
+flex-direction:column;
+width:200px;
+padding:20px;
+display:none;
+}
+
+.nav-links.active{
+display:flex;
+}
+
 .hero h1{
 font-size:36px;
 }
 
-nav ul{
-display:none;
-}
 }
 
 </style>
@@ -345,36 +320,42 @@ display:none;
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-<div class="loader-text">SDDR Services</div>
-<div class="loader-line"></div>
-</div>
+<div id="progressBar"></div>
 
-<!-- PARTICLES -->
 <div class="particles" id="particles"></div>
 
-<!-- NAV -->
 <nav>
+
 <h2>SDDR Services</h2>
-<ul>
+
+<div class="menu-btn">
+<i class="fas fa-bars"></i>
+</div>
+
+<ul class="nav-links">
 <li><a href="#services">Services</a></li>
-<li><a href="#portfolio">Portfolio</a></li>
+<li><a href="#why">Why Us</a></li>
 <li><a href="#pricing">Pricing</a></li>
 </ul>
+
 </nav>
 
-<!-- HERO -->
 <section class="hero">
+
 <div class="hero-box">
+
 <h1>Luxury Digital Presence<br><span>For Serious Brands</span></h1>
+
 <p>Premium Design • Marketing Strategy • Business Growth</p>
+
 <a href="https://web.facebook.com/sddrservices" class="btn">Private Consultation</a>
+
 </div>
+
 </section>
 
-<!-- SERVICES -->
 <section class="section" id="services">
+
 <h2>Our Services</h2>
 
 <div class="grid">
@@ -396,87 +377,128 @@ display:none;
 </div>
 
 </div>
+
 </section>
 
-<!-- PORTFOLIO -->
-<section class="section" id="portfolio">
-<h2>Portfolio Showcase</h2>
+<section class="section" id="why">
+
+<h2>Why Choose Us</h2>
 
 <div class="grid">
 
-<div class="portfolio-card">
-<img src="https://picsum.photos/500/400?1">
+<div class="feature">
+<i class="fas fa-gem"></i>
+<h3>Premium Design</h3>
+<p>Luxury level websites designed to impress clients.</p>
 </div>
 
-<div class="portfolio-card">
-<img src="https://picsum.photos/500/400?2">
+<div class="feature">
+<i class="fas fa-rocket"></i>
+<h3>Business Growth Focus</h3>
+<p>Not just websites — we build digital systems that generate leads.</p>
 </div>
 
-<div class="portfolio-card">
-<img src="https://picsum.photos/500/400?3">
+<div class="feature">
+<i class="fas fa-shield-alt"></i>
+<h3>Secure Systems</h3>
+<p>Advanced protection and reliable website performance.</p>
+</div>
+
+<div class="feature">
+<i class="fas fa-crown"></i>
+<h3>Exclusive Clients</h3>
+<p>We only accept limited businesses each month.</p>
 </div>
 
 </div>
+
+<div class="scarcity">
+⚜ Only <b>2 client slots</b> remaining this month
+</div>
+
 </section>
 
-<!-- PRICING -->
 <section class="section" id="pricing">
+
 <h2>Private Investment</h2>
 
 <div class="pricing-box">
+
 <h3>BY INVITATION ONLY</h3>
+
 <h1 style="color:#c6a55c;margin:30px 0;">₱599 Starting</h1>
+
 <p>Limited premium slots available</p>
+
 <br>
+
 <a href="https://web.facebook.com/sddrservices" class="btn">Request Proposal</a>
+
 </div>
+
 </section>
 
 <footer style="text-align:center;padding:60px;color:#666">
 © 2026 SDDR Services
 </footer>
 
+<a href="https://web.facebook.com/sddrservices" class="messenger-btn">
+<i class="fab fa-facebook-messenger"></i>
+</a>
+
 <script>
 
-/* Loader */
-window.addEventListener("load",()=>{
-setTimeout(()=>{
-document.getElementById("loader").style.display="none";
-},2000);
-});
+/* MOBILE MENU */
 
-/* Scroll Reveal */
-const sections=document.querySelectorAll(".section");
+document.querySelector(".menu-btn").onclick=function(){
+document.querySelector(".nav-links").classList.toggle("active")
+}
+
+/* SCROLL REVEAL */
+
+const sections=document.querySelectorAll(".section")
 
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(entry=>{
 if(entry.isIntersecting){
-entry.target.classList.add("visible");
+entry.target.classList.add("visible")
 }
-});
-},{threshold:.2});
+})
+},{threshold:.2})
 
-sections.forEach(sec=>observer.observe(sec));
+sections.forEach(sec=>observer.observe(sec))
 
-/* GOLD PARTICLES */
-const particleContainer=document.getElementById("particles");
+/* SCROLL PROGRESS */
 
-for(let i=0;i<40;i++){
-let span=document.createElement("span");
+window.onscroll=function(){
 
-span.style.left=Math.random()*100+"vw";
-span.style.top=Math.random()*100+"vh";
-span.style.animationDuration=(10+Math.random()*20)+"s";
-span.style.opacity=Math.random();
+let winScroll=document.body.scrollTop||document.documentElement.scrollTop
 
-particleContainer.appendChild(span);
+let height=document.documentElement.scrollHeight-document.documentElement.clientHeight
+
+let scrolled=(winScroll/height)*100
+
+document.getElementById("progressBar").style.width=scrolled+"%"
+
+}
+
+/* PARTICLES */
+
+const container=document.getElementById("particles")
+
+for(let i=0;i<50;i++){
+
+let span=document.createElement("span")
+
+span.style.left=Math.random()*100+"vw"
+span.style.top=Math.random()*100+"vh"
+span.style.animationDuration=(10+Math.random()*20)+"s"
+
+container.appendChild(span)
+
 }
 
 </script>
-
-<a href="https://web.facebook.com/sddrservices" class="messenger-btn">
-<i class="fab fa-facebook-messenger"></i>
-</a>
 
 </body>
 </html>
